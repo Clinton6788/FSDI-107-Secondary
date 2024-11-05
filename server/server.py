@@ -23,10 +23,20 @@ def fix_id(obj):
     obj["_id"] = str(obj["_id"])
     return obj
 
+@app.get("/api/products")
+def read_products():
+    cursor = db.products.find({})
+    catalog = []
+    for item in cursor:
+        catalog.append(fix_id(item))
+    return json.dumps(catalog)
+
+
 @app.post("/api/products")
 def save_product():
     product = request.get_json()
-    print(f"New product: {product}")
+    # Validation
+
     db.products.insert_one(product)
     # products.append(product)
     return json.dumps(fix_id(product))
