@@ -1,8 +1,10 @@
 from flask import Flask, request
+from flask_cors import CORS
 import json
 from config import db
 
 app = Flask(__name__)
+CORS(app)
 
 @app.get("/")
 def hello_world():
@@ -15,9 +17,6 @@ def version():
 
 products = []
 
-@app.get("/api/products")
-def get_products():
-    return json.dumps(products)
 
 def fix_id(obj):
     obj["_id"] = str(obj["_id"])
